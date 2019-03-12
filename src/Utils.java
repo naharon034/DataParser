@@ -19,66 +19,178 @@ public class Utils {
 
         return output.toString();
     }
-    public static ArrayList<ElectionResults> parse2016ElectionResults( String data) {
-        ArrayList <ElectionResults> output = new ArrayList();
-        String[] results = data.split("\n");
 
-        for (int line = 1; line < results.length; line++) {
-            ArrayList lineList = new ArrayList();
-            String currentLine = results[line];
-            int firstCommaIndex = currentLine.indexOf(",");
-            String currentLineModified = currentLine.substring(firstCommaIndex + 1, currentLine.length());
+//
 
-            for (int i = 0; i < 10; i++) {
-                if (currentLineModified.substring(0, 1).equals('"') && currentLineModified.contains(",")) {
-                    int indexOfFirstQuotes = currentLineModified.indexOf('"');
-                    int indexOfSecondQuotes = currentLineModified.indexOf('"', indexOfFirstQuotes + 1);
+    public static ArrayList<ElectionData> parseResults2016Elections(String data) {
+        ArrayList<ElectionData> output = new ArrayList<>();
+        String[] separatedByLines = data.split("\n");
+        ArrayList<String> lineVals = new ArrayList<>();
+        for (int line = 1; line < separatedByLines.length; line++) {
+            lineVals = separateLineToVals2016Elections(separatedByLines[line]);
+            ElectionData e = new ElectionData(lineVals);
+            output.add(e);
+            System.out.println(e.toString());
+        }
+        return output;
+
+    }
+
+    private static ArrayList<String> separateLineToVals2016Elections(String line) {
+        int indexOfFirstComma = line.indexOf(",");
+        String currentLineModified = line.substring(indexOfFirstComma+1, line.length());
+        ArrayList<String> lineVals = new ArrayList<>();
+        for (int i = 0; i <=10; i++) {
+        //while (currentLineModified.length() != 0){
+            if (currentLineModified.substring(0, 1).equals("\"")) {
+                    int indexOfFirstQuotes = currentLineModified.indexOf("\"");
+                    int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
                     String val = removeCommas(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
 
-                    lineList.add(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+                    lineVals.add(val);
                     currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
-                } else if (currentLineModified.substring(0, 1).equals('"')) {
-                    int indexOfFirstQuotes = currentLineModified.indexOf('"');
-                    int indexOfSecondQuotes = currentLineModified.indexOf('"', indexOfFirstQuotes + 1);
-
-                    lineList.add(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
-                    currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
-                } else {
+            } else {
                     int indexOfComma = currentLineModified.indexOf(",");
-                    if(indexOfComma < 0 ){ indexOfComma = currentLineModified.length();}
-                    String val = currentLineModified.substring(0, indexOfComma);
-                    lineList.add(removePercentSymbol(val));
-                    if(indexOfComma < currentLineModified.length()) {
-                        currentLineModified = currentLineModified.substring(indexOfComma + 1, currentLineModified.length());
+                    if (indexOfComma < 0) {
+                        indexOfComma = currentLineModified.length();
                     }
+                    String val = currentLineModified.substring(0, indexOfComma);
+                    lineVals.add(removePercentSymbol(val));
+                    if (indexOfComma < currentLineModified.length()) {
+                        currentLineModified = currentLineModified.substring(indexOfComma +1, currentLineModified.length());
+                    }
+            }
+        }
+        return lineVals;
+    }
+
+    public static ArrayList<EducationData> parseResults2016Education(String data) {
+        ArrayList<EducationData> output = new ArrayList<>();
+        String[] separatedByLines = data.split("\n");
+        ArrayList<String> lineVals = new ArrayList<>();
+        for (int line = 5; line < separatedByLines.length; line++) {
+            lineVals = separateLineToVals2016Elections(separatedByLines[line]);
+            EducationData e = new EducationData(lineVals);
+            output.add(e);
+        }
+        return output;
+
+    }
+
+    private static ArrayList<String> separateLineToVals2016Eucation(String line) {
+        String currentLineModified = line;
+        ArrayList<String> lineVals = new ArrayList<>();
+        //while (currentLineModified.length() != 0) {
+        for (int i = 0; i < 45; i++) {
+
+            if (currentLineModified.substring(0, 1).equals("\"")) {
+                int indexOfFirstQuotes = currentLineModified.indexOf("\"");
+                int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
+                String val = removeCommas(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+
+                lineVals.add(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+                currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
+            } else {
+                int indexOfComma = currentLineModified.indexOf(",");
+                if (indexOfComma < 0) {
+                    indexOfComma = currentLineModified.length() - 1;
+                }
+                String val = currentLineModified.substring(0, indexOfComma +1);
+                lineVals.add(removePercentSymbol(val));
+                if (indexOfComma < currentLineModified.length()) {
+                    currentLineModified = currentLineModified.substring(indexOfComma + 1, currentLineModified.length());
                 }
             }
+        }
+        return lineVals;
+    }
 
-            ElectionResults electionResults = new ElectionResults(lineList);
-            output.add(electionResults);
+
+    public static ArrayList<Employment2016> parseResults2016Employment(String data) {
+        ArrayList<Employment2016> output = new ArrayList<>();
+        String[] separatedByLines = data.split("\n");
+        ArrayList<String> lineVals = new ArrayList<>();
+        for (int line = 5; line < separatedByLines.length; line++) {
+            lineVals = separateLineToVals2016Employment(separatedByLines[line]);
+            Employment2016 e = new Employment2016(lineVals);
+            output.add(e);
         }
         return output;
 
     }
-    private static String removeCommas(String str){
+
+    private static ArrayList<String> separateLineToVals2016Employment(String line) {
+        String currentLineModified = line;
+        ArrayList<String> lineVals = new ArrayList<>();
+        while (currentLineModified.length() != 0) {
+            if (currentLineModified.substring(0, 1).equals("\"")) {
+                if (isANumber(currentLineModified.substring(1, 2))) {
+                    int indexOfFirstQuotes = currentLineModified.indexOf("\"");
+                    int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
+                    String val = removeCommas(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+
+                    lineVals.add(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+                    currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
+                } else {
+                    int indexOfFirstQuotes = currentLineModified.indexOf('"');
+                    int indexOfSecondQuotes = currentLineModified.indexOf('"', indexOfFirstQuotes + 1);
+                    int indexOfComma = currentLineModified.indexOf(",");
+                    lineVals.add(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfComma));
+                    lineVals.add(currentLineModified.substring(indexOfComma + 1, indexOfSecondQuotes));
+                    currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
+
+                }
+
+            } else {
+                int indexOfComma = currentLineModified.indexOf(",");
+                if (indexOfComma < 0) {
+                    indexOfComma = currentLineModified.length();
+                }
+                String val = currentLineModified.substring(0, indexOfComma);
+                String noSpaces = removeSpaces(val);
+
+                lineVals.add(removePercentSymbol(noSpaces));
+                if (indexOfComma < currentLineModified.length()) {
+                    currentLineModified = currentLineModified.substring(indexOfComma + 1, currentLineModified.length());
+                }
+            }
+        }
+        return lineVals;
+    }
+
+    private static String removeSpaces(String line) {
         String output = "";
-        for (int i = 0; i < str.length(); i++) {
-            if(!str.substring(i, i+1).equals(",")){
-                output +=str.substring(i, i+1);
+        for (int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) != ' ') {
+                output += line.substring(i, i + 1);
             }
         }
         return output;
     }
-    private static String removePercentSymbol(String string){
-        if(string.contains("%")) {
+
+    private static boolean isANumber(String substring) {
+        if (substring.equals("0") || substring.equals("1") || substring.equals("2") || substring.equals("3") || substring.equals("4")
+                || substring.equals("5") || substring.equals("6") || substring.equals("7") || substring.equals("8") || substring.equals("9")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private static String removeCommas(String str) {
+        String output = "";
+        for (int i = 0; i < str.length(); i++) {
+            if (!str.substring(i, i + 1).equals(",")) {
+                output += str.substring(i, i + 1);
+            }
+        }
+        return output;
+    }
+
+    private static String removePercentSymbol(String string) {
+        if (string.contains("%")) {
             return string.substring(0, string.indexOf("%"));
         }
         return string;
     }
-
-
-
-}
-
-
 }
