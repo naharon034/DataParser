@@ -12,7 +12,12 @@ public class Employment2016 {
         this.unemployedLaborForce = unemployedLaborForce;
         this.unemployedPercent = unemployedPercent;
     }
-
+    private boolean isntEmpty(String str){
+        if( str.equals("")|| str.equals(null)){
+            return false;
+        }
+        return true;
+    }
     public int getTotalLaborForce() {
         return totalLaborForce;
     }
