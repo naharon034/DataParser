@@ -32,7 +32,7 @@ public class Utils {
             lineVals = separateLineToVals2016Elections(separatedByLines[line]);
             ElectionData e = new ElectionData(lineVals);
             output.add(e);
-            System.out.println(e.toString());
+            //System.out.println(e.toString());
         }
         return output;
 
@@ -43,24 +43,24 @@ public class Utils {
         String currentLineModified = line.substring(indexOfFirstComma+1, line.length());
         ArrayList<String> lineVals = new ArrayList<>();
         for (int i = 0; i <=10; i++) {
-        //while (currentLineModified.length() != 0){
+            //while (currentLineModified.length() != 0){
             if (currentLineModified.substring(0, 1).equals("\"")) {
-                    int indexOfFirstQuotes = currentLineModified.indexOf("\"");
-                    int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
-                    String val = removeCommas(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
+                int indexOfFirstQuotes = currentLineModified.indexOf("\"");
+                int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
+                String val = removeCommas(currentLineModified.substring(indexOfFirstQuotes + 1, indexOfSecondQuotes));
 
-                    lineVals.add(val);
-                    currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
+                lineVals.add(val);
+                currentLineModified = currentLineModified.substring(indexOfSecondQuotes + 2, currentLineModified.length());
             } else {
-                    int indexOfComma = currentLineModified.indexOf(",");
-                    if (indexOfComma < 0) {
-                        indexOfComma = currentLineModified.length();
-                    }
-                    String val = currentLineModified.substring(0, indexOfComma);
-                    lineVals.add(removePercentSymbol(val));
-                    if (indexOfComma < currentLineModified.length()) {
-                        currentLineModified = currentLineModified.substring(indexOfComma +1, currentLineModified.length());
-                    }
+                int indexOfComma = currentLineModified.indexOf(",");
+                if (indexOfComma < 0) {
+                    indexOfComma = currentLineModified.length();
+                }
+                String val = currentLineModified.substring(0, indexOfComma);
+                lineVals.add(removePercentSymbol(val));
+                if (indexOfComma < currentLineModified.length()) {
+                    currentLineModified = currentLineModified.substring(indexOfComma +1, currentLineModified.length());
+                }
             }
         }
         return lineVals;
@@ -69,7 +69,7 @@ public class Utils {
     public static ArrayList<EducationData> parseResults2016Education(String data) {
         ArrayList<EducationData> output = new ArrayList<>();
         String[] separatedByLines = data.split("\n");
-       // ArrayList<String> lineVals = new ArrayList<>();
+        // ArrayList<String> lineVals = new ArrayList<>();
         for (int line = 5; line < separatedByLines.length; line++) {
             ArrayList<String> lineVals = separateLineToVals2016Education(separatedByLines[line]);
             EducationData e = new EducationData(lineVals);
@@ -124,19 +124,19 @@ public class Utils {
     private static ArrayList<String> separateLineToVals2016Employment(String line) {
         String currentLineModified = line;
         ArrayList<String> lineVals = new ArrayList<>();
-       // while (currentLineModified.length() != 0) {
+        // while (currentLineModified.length() != 0) {
         for(int i = 0; i< 50; i++){
             if (currentLineModified.substring(0, 1).equals("\"")) {
                 int indexOfFirstQuotes = currentLineModified.indexOf("\"");
                 int indexOfSecondQuotes = currentLineModified.indexOf("\"", indexOfFirstQuotes + 1);
-                String noSpace = removeSpaces(currentLineModified.substring(indexOfFirstQuotes+1, indexOfSecondQuotes));
+                String noSpace = removeSpaces(currentLineModified.substring(indexOfFirstQuotes+1, indexOfSecondQuotes).trim());
                 String val;
                 if (isANumber(noSpace)) {
-                    System.out.println(noSpace + " is a number");
+                    //  System.out.println(noSpace + " is a number");
                     val = removeCommas(noSpace);
-                    System.out.println(val);
+                    // System.out.println(val);
                 } else {
-                    System.out.println(noSpace + " is NOT a number");
+                    //System.out.println(noSpace + " is NOT a number");
                     val = currentLineModified.substring(indexOfFirstQuotes+1, indexOfSecondQuotes);
                 }
                 lineVals.add(val);

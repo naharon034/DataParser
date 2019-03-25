@@ -25,7 +25,7 @@ public class ElectionData {
                 ", year=" + year +
                 ", countyName='" + countyName + '\'' +
                 ", stateName='" + stateName + '\'' +
-                ", fips=" + fips +
+                ", fips=" + fips + "\n" +
                 '}';
     }
 

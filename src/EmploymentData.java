@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class EmploymentData {
@@ -33,7 +34,7 @@ public class EmploymentData {
                 "totalLaborForce=" + totalLaborForce +
                 ", employedLaborForce=" + employedLaborForce +
                 ", unemployedLaborForce=" + unemployedLaborForce +
-                ", unemployedPercent=" + unemployedPercent +
+                ", unemployedPercent=" + unemployedPercent + "\n" +
                 '}';
     }
 

@@ -7,7 +7,7 @@ public class EducationData {
     private double bachlorsOrMore;
 
     public EducationData(ArrayList<String> arr) {
-       if (isntEmpty(arr.get(37))){ this.noHighSchool = (Double.parseDouble(arr.get(37)));}
+        if (isntEmpty(arr.get(37))){ this.noHighSchool = (Double.parseDouble(arr.get(37)));}
         if (isntEmpty(arr.get(38))){ this.onlyHighSchool = (int)(Double.parseDouble(arr.get(38)));}
         if (isntEmpty(arr.get(39))){ this.someCollege = (int)(Double.parseDouble(arr.get(39)));}
         if (isntEmpty(arr.get(40))){ this.bachlorsOrMore = (int)(Double.parseDouble(arr.get(40)));}
@@ -25,7 +25,7 @@ public class EducationData {
                 "noHighSchool=" + noHighSchool +
                 ", onlyHighSchool=" + onlyHighSchool +
                 ", someCollege=" + someCollege +
-                ", bachlorsOrMore=" + bachlorsOrMore +
+                ", bachlorsOrMore=" + bachlorsOrMore + "\n" +
                 '}';
     }
 
